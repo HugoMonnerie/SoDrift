@@ -75,6 +75,7 @@ public class Car : MonoBehaviour {
         {
             Destroy(other.gameObject);
             incrementSpeed();
+            Score.ScoreValue++;
         }
     }
 }
