@@ -143,4 +143,16 @@ public class Car : MonoBehaviour {
             incrementSpeed();
         }
     }
+
+    private void OnCollisionEnter(Collision collision)
+    {
+        if (collision.gameObject.tag == "Obstacle")
+        {
+            if (Score.ScoreValue != 0)
+            {
+                Score.ScoreValue--;
+            }
+        }
+    }
+            
 }
