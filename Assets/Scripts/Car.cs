@@ -7,8 +7,11 @@ public class Car : MonoBehaviour {
     private float hInput;
     private float vInput;
     private float currentSteerAngle;
+    private float currentbreakForce;
+    private bool isBreaking;
 
     [SerializeField] private float motorForce;
+    [SerializeField] private float breakForce;
     [SerializeField] private float maxSteerAngle;
     
     [SerializeField] private WheelCollider wheelBackLeftCollider; 
@@ -33,12 +36,26 @@ public class Car : MonoBehaviour {
     {
         hInput = Input.GetAxisRaw("Horizontal");
         vInput = Input.GetAxis("Vertical");
+        isBreaking = Input.GetKey(KeyCode.Space);
     }
 
     private void HandleMotor()
     {
+        wheelBackLeftCollider.motorTorque = vInput * motorForce /2;
+        wheelBackRightCollider.motorTorque = vInput * motorForce /2;
         wheelFrontLeftCollider.motorTorque = vInput * motorForce;
         wheelFrontRightCollider.motorTorque = vInput * motorForce;
+        
+        currentbreakForce = isBreaking ? breakForce : 0f;
+        ApplyBreaking();
+    }
+    
+    private void ApplyBreaking()
+    {
+        wheelBackLeftCollider.brakeTorque = currentbreakForce;
+        wheelBackRightCollider.brakeTorque = currentbreakForce;
+        wheelFrontLeftCollider.brakeTorque = currentbreakForce;
+        wheelFrontRightCollider.brakeTorque = currentbreakForce;
     }
 
     private void HandleSteering()
