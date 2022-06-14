@@ -119,15 +119,7 @@ public class Car : MonoBehaviour {
                 break;
         }
         else if (other.gameObject.tag == "StartLine"){
-            string actualRaceStatus = Score.raceStatus;
-
-            if (actualRaceStatus == "Ended"){
-            Score.raceStatus = "started";
-        }
-        else{
-            Score.raceStatus = "Ended";
-        }
-        Debug.Log("Race Status " + Score.raceStatus);
+            Score.startLinePassed();
         }
     }
 }
