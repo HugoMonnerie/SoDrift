@@ -98,8 +98,7 @@ public class Car : MonoBehaviour {
     }
 
     public void incrementSpeed(){
-        Debug.Log("Increment");
-        m_TranslationSpeed += 10;
+        motorForce += 500;
     }
 
     private void LerpToSteerAngle()

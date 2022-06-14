@@ -18,11 +18,9 @@ public class Piece : MonoBehaviour
         
     }
 
-    void OnCollisionEnter(Collision collision)
-    {
-        /*Destroy(gameObject);
-        Car car = m_Car.GetComponent<Car>();
-        car.incrementSpeed();*/
+    void OnTriggerEnter(Collider other){
+        //Debug.Log("collision piece");
+        
     }
 
     // Update is called once per frame
