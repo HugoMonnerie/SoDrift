@@ -137,9 +137,9 @@ public class Car : MonoBehaviour {
     void OnCollisionEnter(Collision collision)
     {
         //Check for a match with the specific tag on any GameObject that collides with your GameObject
-        if (collision.gameObject.tag == "Piece")
+        if (other.gameObject.tag == "Piece")
         {
-            Destroy(collision.gameObject);
+            Destroy(other.gameObject);
             incrementSpeed();
         }
     }
