@@ -97,6 +97,11 @@ public class Car : MonoBehaviour {
         wheelTransform.position = pos;
     }
 
+    public void incrementSpeed(){
+        Debug.Log("Increment");
+        m_TranslationSpeed += 10;
+    }
+
     private void LerpToSteerAngle()
     {
         wheelFrontRightCollider.steerAngle =
