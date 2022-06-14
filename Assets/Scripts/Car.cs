@@ -98,7 +98,7 @@ public class Car : MonoBehaviour {
     }
 
     public void incrementSpeed(){
-        motorForce += 500;
+        motorForce += 100;
     }
 
     private void LerpToSteerAngle()

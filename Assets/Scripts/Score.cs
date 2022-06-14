@@ -13,6 +13,7 @@ public class Score : MonoBehaviour
 
     string timer;
     [SerializeField] TextMeshProUGUI m_TimerText;
+    public static float startTime = 0;
 
 
     private void Awake() {
@@ -23,15 +24,22 @@ public class Score : MonoBehaviour
     void Update()
     {
         m_ScoreText.text = ScoreValue.ToString();
-        
+        if (raceStatus == "Started"){
+        m_TimerText.text = (Time.time - startTime).ToString();
+        }
+        else{
+          m_TimerText.text = "0";   
+        }
     }
 
     public static void startLinePassed(){
         if (raceStatus == "Ended"){
-            raceStatus = "started";
+            raceStatus = "Started";
+            startTime = Time.time;
         }
         else{
             raceStatus = "Ended";
+            startTime = 0;
         }
         Debug.Log("Race Status " + raceStatus);
     }
