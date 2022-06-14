@@ -66,16 +66,14 @@ public class Car : MonoBehaviour {
     }
 
     public void incrementSpeed(){
-        Debug.Log("Increment");
-        m_TranslationSpeed += 10;
+        motorForce += 500;
     }
 
-    void OnCollisionEnter(Collision collision)
-    {
+    void OnTriggerEnter(Collider other){
         //Check for a match with the specific tag on any GameObject that collides with your GameObject
-        if (collision.gameObject.tag == "Piece")
+        if (other.gameObject.tag == "Piece")
         {
-            Destroy(collision.gameObject);
+            Destroy(other.gameObject);
             incrementSpeed();
         }
     }
