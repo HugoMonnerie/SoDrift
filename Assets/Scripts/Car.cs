@@ -118,5 +118,16 @@ public class Car : MonoBehaviour {
                 m_Rigidbody.AddForce(translationVelocity-m_Rigidbody.velocity, ForceMode.VelocityChange);
                 break;
         }
+        else if (other.gameObject.tag == "StartLine"){
+            string actualRaceStatus = Score.raceStatus;
+
+            if (actualRaceStatus == "Ended"){
+            Score.raceStatus = "started";
+        }
+        else{
+            Score.raceStatus = "Ended";
+        }
+        Debug.Log("Race Status " + Score.raceStatus);
+        }
     }
 }

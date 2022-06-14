@@ -5,6 +5,8 @@ TagManager:
   serializedVersion: 2
   tags:
   - SpeedBoost
+  - Piece
+  - StartLine
   layers:
   - Default
   - TransparentFX
