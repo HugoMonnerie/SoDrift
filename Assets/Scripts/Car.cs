@@ -64,4 +64,19 @@ public class Car : MonoBehaviour {
         wheelTransform.rotation = rot;
         wheelTransform.position = pos;
     }
+
+    public void incrementSpeed(){
+        Debug.Log("Increment");
+        m_TranslationSpeed += 10;
+    }
+
+    void OnCollisionEnter(Collision collision)
+    {
+        //Check for a match with the specific tag on any GameObject that collides with your GameObject
+        if (collision.gameObject.tag == "Piece")
+        {
+            Destroy(collision.gameObject);
+            incrementSpeed();
+        }
+    }
 }

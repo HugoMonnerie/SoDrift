@@ -5,6 +5,7 @@ using UnityEngine;
 public class Piece : MonoBehaviour
 {
     Rigidbody m_Rigidbody;
+    [SerializeField] GameObject m_Car;
 
     void Awake(){
      m_Rigidbody = GetComponent<Rigidbody>();
@@ -19,11 +20,9 @@ public class Piece : MonoBehaviour
 
     void OnCollisionEnter(Collision collision)
     {
-        foreach (ContactPoint contact in collision.contacts)
-        {
-            Debug.Log("cc");
-            Destroy(gameObject);
-        }
+        /*Destroy(gameObject);
+        Car car = m_Car.GetComponent<Car>();
+        car.incrementSpeed();*/
     }
 
     // Update is called once per frame
