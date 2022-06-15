@@ -41,9 +41,11 @@ public class Score : MonoBehaviour
     }
 
     public static void startLinePassed(){
+        Debug.Log(checkPointsPassed[0].ToString() + " " + checkPointsPassed[1].ToString() +  " " + checkPointsPassed[2].ToString());
         if (raceStatus == "Ended"){
             raceStatus = "Started";
             startTime = Time.time;
+            checkPointsPassed = new bool[3] {false, false, false};
         }
         else if (!checkPointsPassed.Contains(false)){
             raceStatus = "Ended";
