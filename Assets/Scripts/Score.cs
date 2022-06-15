@@ -16,10 +16,6 @@ public class Score : MonoBehaviour
     [SerializeField] TextMeshProUGUI m_TimerText;
     public static float startTime = 0;
 
-    [SerializeField] GameObject m_CheckPoint1;
-    [SerializeField] GameObject m_CheckPoint2;
-    [SerializeField] GameObject m_CheckPoint3;
-
     public static bool[] checkPointsPassed;
 
     private void Awake() {
