@@ -1422,6 +1422,7 @@ GameObject:
   - component: {fileID: 4012108634830722}
   - component: {fileID: 6632277957282927404}
   - component: {fileID: 4188431063741518693}
+  - component: {fileID: 3214170621325105024}
   m_Layer: 0
   m_Name: car 1203 black
   m_TagString: Untagged
@@ -1485,6 +1486,19 @@ MonoBehaviour:
   wheelBackRightTransform: {fileID: 4887244946970578}
   wheelFrontLeftTransform: {fileID: 4852956760511786}
   wheelFrontRightTransform: {fileID: 4849906215459220}
+--- !u!65 &3214170621325105024
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1313628572427264}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 1, y: 1, z: 1}
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!54 &4188431063741518693
 Rigidbody:
   m_ObjectHideFlags: 0

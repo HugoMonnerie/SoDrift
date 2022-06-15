@@ -5,6 +5,11 @@ TagManager:
   serializedVersion: 2
   tags:
   - SpeedBoost
+  - Piece
+  - StartLine
+  - CheckPoint
+  - Car
+  - Obstacle
   layers:
   - Default
   - TransparentFX

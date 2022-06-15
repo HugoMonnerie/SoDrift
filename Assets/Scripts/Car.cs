@@ -97,6 +97,10 @@ public class Car : MonoBehaviour {
         wheelTransform.position = pos;
     }
 
+    public void incrementSpeed(){
+        motorForce += 100;
+    }
+
     private void LerpToSteerAngle()
     {
         wheelFrontRightCollider.steerAngle =
@@ -113,6 +117,33 @@ public class Car : MonoBehaviour {
                 Vector3 translationVelocity = vInput * transform.forward * speedBoost;
                 m_Rigidbody.AddForce(translationVelocity-m_Rigidbody.velocity, ForceMode.VelocityChange);
                 break;
+        case "Piece":
+            Destroy(other.gameObject);
+            if (Score.piecesCount <10){
+                incrementSpeed();
+                Score.piecesCount++;
+            }
+            break;
+        case "StartLine":
+            Score.startLinePassed();
+            break;
+        case "CheckPoint":
+            Score.checkPointPassed(int.Parse(other.gameObject.name.Split("_")[1]));
+            break;
+        default:
+            break;
         }
     }
+
+    private void OnCollisionEnter(Collision collision)
+    {
+        if (collision.gameObject.tag == "Obstacle")
+        {
+            if (Score.piecesCount != 0)
+            {
+                Score.piecesCount--;
+            }
+        }
+    }
+            
 }
