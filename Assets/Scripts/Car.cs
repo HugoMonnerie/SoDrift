@@ -117,8 +117,6 @@ public class Car : MonoBehaviour {
                 Vector3 translationVelocity = vInput * transform.forward * speedBoost;
                 m_Rigidbody.AddForce(translationVelocity-m_Rigidbody.velocity, ForceMode.VelocityChange);
                 break;
-        }
-        else if (other.gameObject.tag == "StartLine"){
         case "Piece":
             Destroy(other.gameObject);
             if (Score.piecesCount <10){
@@ -135,7 +133,5 @@ public class Car : MonoBehaviour {
         default:
             break;
         }
-
-    
     }
 }
