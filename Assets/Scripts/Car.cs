@@ -119,7 +119,23 @@ public class Car : MonoBehaviour {
                 break;
         }
         else if (other.gameObject.tag == "StartLine"){
+        case "Piece":
+            Destroy(other.gameObject);
+            if (Score.piecesCount <10){
+                incrementSpeed();
+                Score.piecesCount++;
+            }
+            break;
+        case "StartLine":
             Score.startLinePassed();
+            break;
+        case "CheckPoint":
+            Score.checkPointPassed(int.Parse(other.gameObject.name.Split("_")[1]));
+            break;
+        default:
+            break;
         }
+
+    
     }
 }
