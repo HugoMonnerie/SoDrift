@@ -464,7 +464,7 @@ Transform:
   m_GameObject: {fileID: 287611340}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0.19571257, y: 0.33151639, z: 230}
-  m_LocalScale: {x: 24, y: 2.8371298, z: 48}
+  m_LocalScale: {x: 24, y: 2.8371298, z: 121.723206}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
@@ -1151,6 +1151,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_ScoreText: {fileID: 1119934897}
+  m_TimerText: {fileID: 0}
+  m_CheckPoint1: {fileID: 0}
+  m_CheckPoint2: {fileID: 0}
+  m_CheckPoint3: {fileID: 0}
 --- !u!4 &827609794
 Transform:
   m_ObjectHideFlags: 0
