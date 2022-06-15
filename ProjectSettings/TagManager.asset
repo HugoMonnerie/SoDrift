@@ -9,6 +9,7 @@ TagManager:
   - StartLine
   - CheckPoint
   - Car
+  - Obstacle
   layers:
   - Default
   - TransparentFX

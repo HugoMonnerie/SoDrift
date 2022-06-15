@@ -134,4 +134,16 @@ public class Car : MonoBehaviour {
             break;
         }
     }
+
+    private void OnCollisionEnter(Collision collision)
+    {
+        if (collision.gameObject.tag == "Obstacle")
+        {
+            if (Score.piecesCount != 0)
+            {
+                Score.piecesCount--;
+            }
+        }
+    }
+            
 }
