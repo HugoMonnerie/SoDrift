@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
@@ -9,6 +10,18 @@ public class Car : MonoBehaviour {
     private float currentSteerAngle;
     private float currentbreakForce;
     private bool isBreaking;
+    private float targetSteerAngle = 0;
+    
+    [SerializeField] private float speedBoost; // m/s
+    
+    Rigidbody m_Rigidbody;
+
+    void Awake()
+    {
+        m_Rigidbody = GetComponent<Rigidbody>();
+    }
+
+    [SerializeField] private float turnSpeed;
 
     [SerializeField] private float motorForce;
     [SerializeField] private float breakForce;
@@ -30,6 +43,7 @@ public class Car : MonoBehaviour {
         HandleMotor();
         HandleSteering();
         UpdateWheels();
+        LerpToSteerAngle();
     }
 
     private void GetInput()
@@ -41,8 +55,8 @@ public class Car : MonoBehaviour {
 
     private void HandleMotor()
     {
-        wheelBackLeftCollider.motorTorque = vInput * motorForce /2;
-        wheelBackRightCollider.motorTorque = vInput * motorForce /2;
+        /*wheelBackLeftCollider.motorTorque = vInput * motorForce;
+        wheelBackRightCollider.motorTorque = vInput * motorForce;*/
         wheelFrontLeftCollider.motorTorque = vInput * motorForce;
         wheelFrontRightCollider.motorTorque = vInput * motorForce;
         
@@ -61,8 +75,9 @@ public class Car : MonoBehaviour {
     private void HandleSteering()
     {
         currentSteerAngle = maxSteerAngle * hInput;
-        wheelFrontLeftCollider.steerAngle = currentSteerAngle;
-        wheelFrontRightCollider.steerAngle = currentSteerAngle;
+        targetSteerAngle = currentSteerAngle;
+        /*wheelFrontLeftCollider.steerAngle = currentSteerAngle;
+        wheelFrontRightCollider.steerAngle = currentSteerAngle;*/
     }
 
     private void UpdateWheels()
@@ -80,5 +95,24 @@ public class Car : MonoBehaviour {
         wheelCollider.GetWorldPose(out pos, out rot);
         wheelTransform.rotation = rot;
         wheelTransform.position = pos;
+    }
+
+    private void LerpToSteerAngle()
+    {
+        wheelFrontRightCollider.steerAngle =
+            Mathf.Lerp(wheelFrontRightCollider.steerAngle, targetSteerAngle, Time.deltaTime * turnSpeed);
+        wheelFrontLeftCollider.steerAngle =
+            Mathf.Lerp(wheelFrontLeftCollider.steerAngle, targetSteerAngle, Time.deltaTime * turnSpeed);
+    }
+
+    private void OnTriggerEnter(Collider other)
+    {
+        switch (other.gameObject.tag)
+        {
+            case "SpeedBoost":
+                Vector3 translationVelocity = vInput * transform.forward * speedBoost;
+                m_Rigidbody.AddForce(translationVelocity-m_Rigidbody.velocity, ForceMode.VelocityChange);
+                break;
+        }
     }
 }
