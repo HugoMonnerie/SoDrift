@@ -1,12 +1,19 @@
+using System;
+using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
-using UnityEngine;
 
-public class Car : MonoBehaviour
-{
-    [SerializeField] float m_TranslationSpeed; // m/s
-    [SerializeField] float m_RotationSpeed; // °/s
-
+public class Car : MonoBehaviour {
+     
+    private float hInput;
+    private float vInput;
+    private float currentSteerAngle;
+    private float currentbreakForce;
+    private bool isBreaking;
+    private float targetSteerAngle = 0;
+    
+    [SerializeField] private float speedBoost; // m/s
+    
     Rigidbody m_Rigidbody;
 
     void Awake()
@@ -14,50 +21,129 @@ public class Car : MonoBehaviour
         m_Rigidbody = GetComponent<Rigidbody>();
     }
 
-    //COMPORTEMENT CINEMATIQUE
-    // Update is called once per frame
-    void Update()
+    [SerializeField] private float turnSpeed;
+
+    [SerializeField] private float motorForce;
+    [SerializeField] private float breakForce;
+    [SerializeField] private float maxSteerAngle;
+    
+    [SerializeField] private WheelCollider wheelBackLeftCollider; 
+    [SerializeField] private WheelCollider wheelBackRightCollider; 
+    [SerializeField] private WheelCollider wheelFrontLeftCollider; 
+    [SerializeField] private WheelCollider wheelFrontRightCollider; 
+    
+    [SerializeField] private Transform wheelBackLeftTransform; 
+    [SerializeField] private Transform wheelBackRightTransform; 
+    [SerializeField] private Transform wheelFrontLeftTransform; 
+    [SerializeField] private Transform wheelFrontRightTransform; 
+    
+    public void FixedUpdate()
     {
-        /*
-        float hInput = Input.GetAxisRaw("Horizontal");
-        float vInput = Input.GetAxis("Vertical");
-
-        //Vector3 moveVect = vInput*transform.forward * m_TranslationSpeed * Time.deltaTime;
-        //transform.Translate(moveVect, Space.World);
-
-        Vector3 localMoveVect = new Vector3(0, 0, vInput * m_TranslationSpeed * Time.deltaTime);
-        transform.Translate(localMoveVect, Space.Self);
-
-        float deltaAngle = hInput * m_RotationSpeed * Time.deltaTime;
-        transform.Rotate(transform.up, deltaAngle, Space.World);
-        */
+        GetInput();
+        HandleMotor();
+        HandleSteering();
+        UpdateWheels();
+        LerpToSteerAngle();
     }
 
-    //COmportement dynamique (physique ... moteur PhysX)
-    private void FixedUpdate()
+    private void GetInput()
     {
-        float hInput = Input.GetAxisRaw("Horizontal");
-        float vInput = Input.GetAxis("Vertical");
+        hInput = Input.GetAxisRaw("Horizontal");
+        vInput = Input.GetAxis("Vertical");
+        isBreaking = Input.GetKey(KeyCode.Space);
+    }
 
-        //MODE POSITIONNEL
-        /*
-        Vector3 moveVect = vInput * transform.forward * m_TranslationSpeed * Time.fixedDeltaTime;
-        m_Rigidbody.MovePosition(m_Rigidbody.position + moveVect);
-
-        float deltaAngle = hInput * m_RotationSpeed * Time.fixedDeltaTime;
-        Quaternion qRot = Quaternion.AngleAxis(deltaAngle, transform.up);
-        Quaternion qNewOrient = qRot * transform.rotation;
-        m_Rigidbody.MoveRotation(qNewOrient);
-
-        m_Rigidbody.AddForce(-m_Rigidbody.velocity, ForceMode.VelocityChange);
-        m_Rigidbody.AddTorque(-m_Rigidbody.angularVelocity, ForceMode.VelocityChange);
-        */
-        //MODE VELOCITY
+    private void HandleMotor()
+    {
+        /*wheelBackLeftCollider.motorTorque = vInput * motorForce;
+        wheelBackRightCollider.motorTorque = vInput * motorForce;*/
+        wheelFrontLeftCollider.motorTorque = vInput * motorForce;
+        wheelFrontRightCollider.motorTorque = vInput * motorForce;
         
-        Vector3 translationVelocity = vInput * transform.forward * m_TranslationSpeed;
-        m_Rigidbody.AddForce(translationVelocity-m_Rigidbody.velocity, ForceMode.VelocityChange);
-
-        Vector3 angularVelocity = hInput * transform.up * m_RotationSpeed * Mathf.Deg2Rad;
-        m_Rigidbody.AddTorque(angularVelocity-m_Rigidbody.angularVelocity , ForceMode.VelocityChange);
+        currentbreakForce = isBreaking ? breakForce : 0f;
+        ApplyBreaking();
     }
+    
+    private void ApplyBreaking()
+    {
+        wheelBackLeftCollider.brakeTorque = currentbreakForce;
+        wheelBackRightCollider.brakeTorque = currentbreakForce;
+        wheelFrontLeftCollider.brakeTorque = currentbreakForce;
+        wheelFrontRightCollider.brakeTorque = currentbreakForce;
+    }
+
+    private void HandleSteering()
+    {
+        currentSteerAngle = maxSteerAngle * hInput;
+        targetSteerAngle = currentSteerAngle;
+        /*wheelFrontLeftCollider.steerAngle = currentSteerAngle;
+        wheelFrontRightCollider.steerAngle = currentSteerAngle;*/
+    }
+
+    private void UpdateWheels()
+    {
+        UpdateSingleWheel(wheelFrontLeftCollider, wheelFrontLeftTransform);
+        UpdateSingleWheel(wheelFrontRightCollider, wheelFrontRightTransform);
+        UpdateSingleWheel(wheelBackLeftCollider, wheelBackLeftTransform);
+        UpdateSingleWheel(wheelBackRightCollider, wheelBackRightTransform);
+    }
+
+    private void UpdateSingleWheel(WheelCollider wheelCollider, Transform wheelTransform)
+    {
+        Vector3 pos;
+        Quaternion rot;
+        wheelCollider.GetWorldPose(out pos, out rot);
+        wheelTransform.rotation = rot;
+        wheelTransform.position = pos;
+    }
+
+    public void incrementSpeed(){
+        motorForce += 100;
+    }
+
+    private void LerpToSteerAngle()
+    {
+        wheelFrontRightCollider.steerAngle =
+            Mathf.Lerp(wheelFrontRightCollider.steerAngle, targetSteerAngle, Time.deltaTime * turnSpeed);
+        wheelFrontLeftCollider.steerAngle =
+            Mathf.Lerp(wheelFrontLeftCollider.steerAngle, targetSteerAngle, Time.deltaTime * turnSpeed);
+    }
+
+    private void OnTriggerEnter(Collider other)
+    {
+        switch (other.gameObject.tag)
+        {
+            case "SpeedBoost":
+                Vector3 translationVelocity = vInput * transform.forward * speedBoost;
+                m_Rigidbody.AddForce(translationVelocity-m_Rigidbody.velocity, ForceMode.VelocityChange);
+                break;
+        case "Piece":
+            Destroy(other.gameObject);
+            if (Score.piecesCount <10){
+                incrementSpeed();
+                Score.piecesCount++;
+            }
+            break;
+        case "StartLine":
+            Score.startLinePassed();
+            break;
+        case "CheckPoint":
+            Score.checkPointPassed(int.Parse(other.gameObject.name.Split("_")[1]));
+            break;
+        default:
+            break;
+        }
+    }
+
+    private void OnCollisionEnter(Collision collision)
+    {
+        if (collision.gameObject.tag == "Obstacle")
+        {
+            if (Score.piecesCount != 0)
+            {
+                Score.piecesCount--;
+            }
+        }
+    }
+            
 }

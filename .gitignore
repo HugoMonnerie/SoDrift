@@ -64,3 +64,5 @@ crashlytics-build.properties
 UserSettings/
 .vsconfig
 S
+
+.vscode/
