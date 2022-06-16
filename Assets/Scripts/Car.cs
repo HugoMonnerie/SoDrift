@@ -114,7 +114,7 @@ public class Car : MonoBehaviour {
         switch (other.gameObject.tag)
         {
             case "SpeedBoost":
-                Vector3 translationVelocity = vInput * transform.forward * speedBoost;
+                Vector3 translationVelocity = 1 * transform.forward * speedBoost;
                 m_Rigidbody.AddForce(translationVelocity-m_Rigidbody.velocity, ForceMode.VelocityChange);
                 break;
         case "Piece":
