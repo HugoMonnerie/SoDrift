@@ -139,7 +139,7 @@ public class GameManager : Manager<GameManager>
 	#region Callbacks to Events issued by MenuManager
 	private void MainMenuButtonClicked(MainMenuButtonClickedEvent e)
 	{
-		Menu();
+		Play();
 	}
 
 	private void PlayButtonClicked(PlayButtonClickedEvent e)
