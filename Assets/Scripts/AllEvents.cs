@@ -22,6 +22,15 @@ public class GameOverEvent : SDD.Events.Event
 public class GameVictoryEvent : SDD.Events.Event
 {
 }
+public class GameMap1Event : SDD.Events.Event
+{
+}
+public class GameMap2Event : SDD.Events.Event
+{
+}
+public class GameMapSelectorEvent : SDD.Events.Event
+{
+}
 
 public class GameStatisticsChangedEvent : SDD.Events.Event
 {
@@ -33,19 +42,18 @@ public class GameStatisticsChangedEvent : SDD.Events.Event
 
 #region MenuManager Events
 public class EscapeButtonClickedEvent : SDD.Events.Event
-{
-}
+{ }
 public class PlayButtonClickedEvent : SDD.Events.Event
-{
-}
+{ }
 public class ResumeButtonClickedEvent : SDD.Events.Event
-{
-}
+{ }
 public class MainMenuButtonClickedEvent : SDD.Events.Event
-{
-}
-
+{ }
 public class QuitButtonClickedEvent : SDD.Events.Event
+{ }
+public class Map1ButtonClickedEvent : SDD.Events.Event
+{ }
+public class Map2ButtonClickedEvent : SDD.Events.Event
 { }
 #endregion
 
