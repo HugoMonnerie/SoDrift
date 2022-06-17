@@ -101,6 +101,11 @@ public class Car : MonoBehaviour {
         motorForce += 300;
     }
 
+    public void decrementSpeed()
+    {
+        motorForce -= 300;
+    }
+
     private void LerpToSteerAngle()
     {
         wheelFrontRightCollider.steerAngle =
@@ -142,6 +147,7 @@ public class Car : MonoBehaviour {
             if (Score.piecesCount != 0)
             {
                 Score.piecesCount--;
+                decrementSpeed();
             }
         }
     }
