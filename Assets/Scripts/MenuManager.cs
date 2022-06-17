@@ -1,4 +1,6 @@
 ﻿
+using UnityEditor.Sequences;
+
 namespace STUDENT_NAME
 {
 	using System;
@@ -144,6 +146,10 @@ namespace STUDENT_NAME
 		protected override void GameMap2(GameMap2Event e)
 		{
 			OpenPanel(null);
+		}		
+		protected override void GameMapSelector(GameMapSelectorEvent e)
+		{
+			OpenPanel(m_PanelSelectMap);
 		}
 		#endregion
 	}

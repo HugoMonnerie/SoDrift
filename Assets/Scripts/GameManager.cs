@@ -3,9 +3,12 @@
 	//using UnityEngine.UI;
 	//using System.Collections.Generic;
 	using SDD.Events;
-	//using System.Linq;
+using UnityEngine.SceneManagement;
 
-public enum GameState { gameMenu, gamePlay, gameNextLevel, gamePause, gameOver, gameVictory }
+
+//using System.Linq;
+
+public enum GameState { gameMenu, gamePlay, gameNextLevel, gamePause, gameOver, gameVictory, gameSelectMaps }
 
 public class GameManager : Manager<GameManager>
 {
@@ -144,7 +147,7 @@ public class GameManager : Manager<GameManager>
 
 	private void PlayButtonClicked(PlayButtonClickedEvent e)
 	{
-		Menu();
+		SelectMaps();
 	}
 
 	private void ResumeButtonClicked(ResumeButtonClickedEvent e)
@@ -164,11 +167,13 @@ public class GameManager : Manager<GameManager>
 	
 	private void Map1ButtonClicked(Map1ButtonClickedEvent e)
 	{
+		SceneManager.LoadScene("1_Alyssia", LoadSceneMode.Additive);
 		Play();
 	}		
 	
 	private void Map2ButtonClicked(Map2ButtonClickedEvent e)
 	{
+		SceneManager.LoadScene("Marion", LoadSceneMode.Additive);
 		Play();
 	}
 	
@@ -177,10 +182,16 @@ public class GameManager : Manager<GameManager>
 	#region GameState methods
 	private void Menu()
 	{
-		SetTimeScale(0);
+		SetTimeScale(1);
 		m_GameState = GameState.gameMenu;
 		if(MusicLoopsManager.Instance)MusicLoopsManager.Instance.PlayMusic(Constants.MENU_MUSIC);
 		EventManager.Instance.Raise(new GameMenuEvent());
+	}
+	private void SelectMaps()
+	{
+		SetTimeScale(1);
+		m_GameState = GameState.gameSelectMaps;
+		EventManager.Instance.Raise(new GameMapSelectorEvent());
 	}
 
 	private void Play()
