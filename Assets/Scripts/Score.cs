@@ -7,20 +7,21 @@ using System.Linq;
 
 public class Score : MonoBehaviour
 {
-    public static int piecesCount { get; set; }
     [SerializeField] TextMeshProUGUI m_ScoreText;
-
-    public static string raceStatus {get; set;}
-
-    string timer;
     [SerializeField] TextMeshProUGUI m_TimerText;
-    public static float startTime = 0;
+    [SerializeField] private int m_mapNumber;
 
+    public static int piecesCount {get; set;}
+    public static string raceStatus {get; set;}
+    string timer;
+    public static float startTime = 0;
     public static bool[] checkPointsPassed;
+    static int scoreLabelStatic;
 
     private void Awake() {
         raceStatus = "Ended";
         checkPointsPassed = new bool[3] {false, false, false};
+        scoreLabelStatic = m_mapNumber;
     }
     
 
@@ -37,15 +38,24 @@ public class Score : MonoBehaviour
     }
 
     public static void startLinePassed(){
-        if (raceStatus == "Ended"){
+         if (raceStatus == "Ended"){
             raceStatus = "Started";
             startTime = Time.time;
             checkPointsPassed = new bool[3] {false, false, false};
         }
         else if (!checkPointsPassed.Contains(false)){
             raceStatus = "Ended";
+            float raceTimeScore = Time.time - startTime;
+            string scoreLabel = "BestScore" + scoreLabelStatic.ToString();
+            float oldTime = PlayerPrefs.GetFloat(scoreLabel, 9999999); 
+            Debug.Log(raceTimeScore.ToString() + "/" + oldTime.ToString());
+            if (raceTimeScore < oldTime){
+                PlayerPrefs.SetFloat(scoreLabel, raceTimeScore);
+                PlayerPrefs.Save();
+            }
             startTime = 0;
         }
+
     }
 
     public static void checkPointPassed (int checkPointNumber){
