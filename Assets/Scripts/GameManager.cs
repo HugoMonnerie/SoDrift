@@ -142,6 +142,7 @@ public class GameManager : Manager<GameManager>
 	#region Callbacks to Events issued by MenuManager
 	private void MainMenuButtonClicked(MainMenuButtonClickedEvent e)
 	{
+		SceneManager.LoadScene("main 1");
 		Menu();
 	}
 
@@ -168,13 +169,13 @@ public class GameManager : Manager<GameManager>
 	private void Map1ButtonClicked(Map1ButtonClickedEvent e)
 	{
 		SceneManager.LoadScene("1_Alyssia", LoadSceneMode.Additive);
-		Play();
+		SelectMap1();
 	}		
 	
 	private void Map2ButtonClicked(Map2ButtonClickedEvent e)
 	{
 		SceneManager.LoadScene("Marion", LoadSceneMode.Additive);
-		Play();
+		SelectMap2();
 	}
 	
 	#endregion
@@ -192,6 +193,24 @@ public class GameManager : Manager<GameManager>
 		SetTimeScale(1);
 		m_GameState = GameState.gameSelectMaps;
 		EventManager.Instance.Raise(new GameMapSelectorEvent());
+	}
+	
+	private void SelectMap1()
+	{
+		InitNewGame();
+		SetTimeScale(1);
+		m_GameState = GameState.gamePlay;
+		if (MusicLoopsManager.Instance) MusicLoopsManager.Instance.PlayMusic(Constants.GAMEPLAY_MUSIC);
+		EventManager.Instance.Raise(new GameMap1Event());
+	}
+	
+	private void SelectMap2()
+	{
+		InitNewGame();
+		SetTimeScale(1);
+		m_GameState = GameState.gamePlay;
+		if (MusicLoopsManager.Instance) MusicLoopsManager.Instance.PlayMusic(Constants.GAMEPLAY_MUSIC);
+		EventManager.Instance.Raise(new GameMap2Event());
 	}
 
 	private void Play()
