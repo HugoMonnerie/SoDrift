@@ -1,8 +1,5 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 using SDD.Events;
-using System;
 using UnityEngine.SceneManagement;
 
 public abstract class SingletonGameStateObserver<T> :  Singleton<T>,IEventHandler where T:Component
@@ -73,15 +70,17 @@ public abstract class SingletonGameStateObserver<T> :  Singleton<T>,IEventHandle
 	protected virtual void GameMap1(GameMap1Event e)
 	{
 	}
+	
 	protected virtual void GameMap2(GameMap2Event e)
 	{
 	}	
+	
 	protected virtual void GameMapSelector(GameMapSelectorEvent e)
 	{
 	}
+	
 	protected virtual void GameStatisticsChanged(GameStatisticsChangedEvent e)
 	{
 	}
-
-
+	
 }

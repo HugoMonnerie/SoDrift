@@ -1,7 +1,4 @@
-﻿
-using UnityEditor.Sequences;
-
-namespace STUDENT_NAME
+﻿namespace STUDENT_NAME
 {
 	using System;
 	using System.Collections;
@@ -119,22 +116,18 @@ namespace STUDENT_NAME
 		{
 			OpenPanel(m_PanelMainMenu);
 		}
-
 		protected override void GamePlay(GamePlayEvent e)
 		{
 			OpenPanel(m_PanelSelectMap);
 		}
-
 		protected override void GamePause(GamePauseEvent e)
 		{
 			OpenPanel(m_PanelInGameMenu);
 		}
-
 		protected override void GameResume(GameResumeEvent e)
 		{
 			OpenPanel(null);
 		}
-
 		protected override void GameOver(GameOverEvent e)
 		{
 			OpenPanel(m_PanelGameOver);
