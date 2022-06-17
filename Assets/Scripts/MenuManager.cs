@@ -20,6 +20,8 @@ namespace STUDENT_NAME
 		[SerializeField] GameObject m_PanelInGameMenu;
 		[SerializeField] GameObject m_PanelGameOver;
 		[SerializeField] GameObject m_PanelSelectMap;
+		[SerializeField] GameObject m_NoPanel;
+
 
 		List<GameObject> m_AllPanels;
 		#endregion
@@ -105,11 +107,14 @@ namespace STUDENT_NAME
 		public void Map1ButtonHasBeenClicked()
 		{
 			EventManager.Instance.Raise(new Map1ButtonClickedEvent());
+			Destroy(m_PanelSelectMap);
 		}
 
 		public void Map2ButtonHasBeenClicked()
 		{
 			EventManager.Instance.Raise(new Map2ButtonClickedEvent());
+			Destroy(m_PanelSelectMap);
+
 		}
 
 		#endregion
@@ -141,11 +146,11 @@ namespace STUDENT_NAME
 		}
 		protected override void GameMap1(GameMap1Event e)
 		{
-			OpenPanel(null);
+			 Destroy(m_PanelSelectMap);
 		}
 		protected override void GameMap2(GameMap2Event e)
 		{
-			OpenPanel(null);
+			 Destroy(m_PanelSelectMap);
 		}		
 		protected override void GameMapSelector(GameMapSelectorEvent e)
 		{
